@@ -2,17 +2,12 @@ import { app, BrowserWindow, shell, ipcMain, Menu } from 'electron'
 import { release } from 'node:os'
 import { join } from 'node:path'
 import { update } from './update'
+import path from 'path'
 
-// The built directory structure
-//
-// ├─┬ dist-electron
-// │ ├─┬ main
-// │ │ └── index.js    > Electron-Main
-// │ └─┬ preload
-// │   └── index.js    > Preload-Scripts
-// ├─┬ dist
-// │ └── index.html    > Electron-Renderer
-//
+type SetMouseType = {
+  x: number,
+  y: number
+}
 
 process.env.DIST_ELECTRON = join(__dirname, '../')
 process.env.DIST = join(process.env.DIST_ELECTRON, '../dist')
@@ -31,10 +26,7 @@ if (!app.requestSingleInstanceLock()) {
   process.exit(0)
 }
 
-// Remove electron security warnings
-// This warning only shows in development mode
-// Read more on https://www.electronjs.org/docs/latest/tutorial/security
-// process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true'
+
 
 let win: BrowserWindow | null = null
 // Here, you can also use other preload
@@ -45,9 +37,10 @@ const indexHtml = join(process.env.DIST, 'index.html')
 async function createWindow() {
   win = new BrowserWindow({
     title: 'Main window',
-    width: 800,
-    height: 600,
+    width: 1024,
+    height: 768,
     frame: false,
+    movable: true,
     resizable: false,
     icon: join(process.env.PUBLIC, 'favicon.ico'),
     webPreferences: {
@@ -57,44 +50,49 @@ async function createWindow() {
     },
   })
 
-  Menu.setApplicationMenu(null)
 
 
-  if (url) { // electron-vite-vue#298
+  if (url) { 
+    win.loadURL(url)
+    win.webContents.openDevTools()
+  } else {
     win.loadFile(indexHtml)
   }
 
-  // Test actively push message to the Electron-Renderer
-  win.webContents.on('did-finish-load', () => {
-    win?.webContents.send('main-process-message', new Date().toLocaleString())
+  ipcMain.on('close-window', () => {
+    win?.close()
   })
 
-
-  // Make all links open with the browser, not with the application
-  win.webContents.setWindowOpenHandler(({ url }) => {
-    if (url.startsWith('https:')) shell.openExternal(url)
-    return { action: 'deny' }
-  })
-
-
-  // Apply electron-updater
+  
   update(win)
 }
 
+ipcMain.on("move-window", (event, { distanceX, distanceY }) => {
+  // Get the current position of the window
+  const currentWindow = BrowserWindow.fromWebContents(event.sender) as BrowserWindow;
+  const currentPosition = currentWindow.getBounds();
+  // Update the position of the window
+  if (Math.abs(currentPosition.x + distanceX) < 1920 && Math.abs(currentPosition.y + distanceY) < 1080) {
+  currentWindow.setBounds({
+    x: currentPosition.x + Math.floor(distanceX/5),
+    y: currentPosition.y + Math.floor(distanceY/5),
+  });
+  }
+  
+  console.log(currentWindow.getBounds())
+});
+
+
+
+
 app.whenReady().then(createWindow)
+
 
 app.on('window-all-closed', () => {
   win = null
   if (process.platform !== 'darwin') app.quit()
 })
 
-// app.on('second-instance', () => {
-//   if (win) {
-//     // Focus on the main window if the user tried to open another
-//     if (win.isMinimized()) win.restore()
-//     win.focus()
-//   }
-// })
 
 app.on('activate', () => {
   const allWindows = BrowserWindow.getAllWindows()
