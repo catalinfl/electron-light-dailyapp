@@ -3,6 +3,8 @@ import { useState } from 'react'
 import './App.scss'
 import { ipcRenderer } from "electron"
 import Bar from './components/Bar'
+import Misc from './components/Misc'
+import ToDoList from './components/ToDoList'
 
 function App() {
   
@@ -11,6 +13,8 @@ function App() {
   return (
     <div className='App'>
       <Bar />
+      <Misc />
+      <ToDoList />
     </div>
   )
 }

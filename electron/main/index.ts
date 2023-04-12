@@ -73,10 +73,12 @@ ipcMain.on("move-window", (event, { distanceX, distanceY }) => {
   const currentPosition = currentWindow.getBounds();
   // Update the position of the window
   if (Math.abs(currentPosition.x + distanceX) < 1920 && Math.abs(currentPosition.y + distanceY) < 1080) {
-  currentWindow.setBounds({
-    x: currentPosition.x + Math.floor(distanceX/5),
-    y: currentPosition.y + Math.floor(distanceY/5),
-  });
+    setTimeout(() => {
+      currentWindow.setBounds({
+      x: currentPosition.x + distanceX,
+      y: currentPosition.y + distanceY,
+    });
+    }, 10)
   }
   
   console.log(currentWindow.getBounds())

@@ -1,0 +1,38 @@
+
+
+.misc {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    height: auto;
+    font-size: 3rem;
+    gap: 3rem;
+    margin-top: 3rem;
+
+
+    &Text {
+        color: white;
+        font-family: Poppins;
+    }
+
+    &Input {
+        width: 50%;
+        height: 30px;
+        font-size: 1.5rem;
+        font-family: Poppins;
+        outline: none;
+        border: none;
+        padding: 25px;
+    }
+
+    &Button {
+        width: 20%;
+        padding: 10px;
+        cursor: pointer;
+        background-color: $darkViolet;
+        color: white;
+        border: none;
+        font-family: Poppins;
+    }
+}

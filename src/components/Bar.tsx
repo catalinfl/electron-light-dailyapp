@@ -28,12 +28,11 @@ const Bar = () => {
         })
 
     }, []) 
-
     function handleMouseMove(event: MouseEvent) {
         const distanceX = Math.floor(event.clientX - initialX);
         const distanceY = Math.floor(event.clientY - initialY);
         var limitedDistanceX, limitedDistanceY;
-        const maxDistance = 15;
+        const maxDistance = 100;
         limitedDistanceX = Math.max(-maxDistance, Math.min(distanceX, maxDistance));
         limitedDistanceY = Math.max(-maxDistance, Math.min(distanceY, maxDistance));
         if (limitedDistanceX !== distanceX || limitedDistanceY !== distanceY) {
@@ -44,9 +43,9 @@ const Bar = () => {
     function handleMouseUp(_: MouseEvent) {
         document.removeEventListener('mousemove', handleMouseMove)
         document.removeEventListener('mouseup', handleMouseUp);
-
         isDragging = false;
     }
+
     return (
         <div className="bar" ref={handleMove}>
             <div className="bar__buttons">

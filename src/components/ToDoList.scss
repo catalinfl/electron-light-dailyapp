@@ -1,0 +1,157 @@
+.todolist {
+    height: 100%;
+    margin-top: 1rem;
+    display: flex;
+    font-family: Poppins;
+    
+    .todolistContainer {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    &Options {
+        height: 70px;
+        align-items: center;
+        width: 100%;
+        justify-content: space-around;
+        padding: 0 10rem;
+        font-weight: 700;
+        font-size: 1.5rem;
+        color: white;
+        display: flex;
+        flex-direction: row;
+        cursor: pointer;
+
+
+        &__add {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        &__remove {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .icon {
+            cursor: pointer;
+            font-size: 2rem;
+        }
+
+        .icon1 {
+            color: green;
+        }
+
+        .icon2 {
+            color: red;
+        }
+    }
+
+    &Item {
+        background-color: $darkViolet;
+        border-radius: 10px;
+        padding: 1rem;
+        color: white;
+        width: 40%;
+        margin: 10px auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;        
+
+        &__title {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            font-weight: 700;
+            margin-top: -1.5rem;
+        }
+
+        &__description {
+            display: flex;
+            margin-top: 1rem;
+        }
+
+        &__dateTime {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .iconContainer {
+            display: flex;
+            width: 100%;
+            font-size: 2rem;
+            justify-content: flex-end;
+            z-index: 1;
+            
+            .icon {
+                cursor: pointer;
+                transition: all 1s;
+
+                &:hover {
+                    color: red;
+                }
+            }
+
+        }
+
+    }
+}
+
+.addTask {
+    display: flex;
+    flex-direction:    column;
+    align-items: center;
+    margin: 0 auto;
+    width: 400px;
+    border-radius: 15px;
+    margin-top: 2rem;
+    padding: 10px;
+    height: 500px;
+    background-color: $darkViolet;
+
+    &__inputDescription {
+        resize: none;
+        padding: 10px;
+        margin: 1rem 0;
+        width: 85%;
+        font-size: 1.25rem;
+        font-family: Poppins;
+        outline: $darkViolet;
+        border: none;
+    }
+
+    &__inputTitle {
+        padding: 10px;
+        border: none;
+        font-size: 1.25rem;
+        font-family: Poppins;
+        outline: $darkViolet;
+        margin: 1rem 0;
+    }
+
+    &__button {
+        width: 35%;
+        height: 35px;
+        margin-top: 3rem;
+        background-color: $lightViolet;
+        color: white;
+        font-size: 1.25rem;
+        font-family: Poppins;
+        cursor: pointer;
+        border: none;
+        outline: none;
+    }
+
+    &__title {
+        color: white;
+        font-size: 1.5rem;
+        margin-top: 2rem;
+    }
+}
+
+::selection {
+    background-color: $darkViolet;
+}
