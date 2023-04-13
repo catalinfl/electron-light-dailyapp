@@ -2,7 +2,7 @@
   "name": "daily-activities",
   "version": "1.0.0",
   "main": "dist-electron/main/index.js",
-  "description": "Electron Vite React boilerplate.",
+  "description": "Small to-do app for daily activities with local storage made with ElectronJS and TypeScript React",
   "author": "Catalin F",
   "license": "MIT",
   "private": false,

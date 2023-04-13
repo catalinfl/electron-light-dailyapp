@@ -25,11 +25,6 @@ const Misc = () => {
         verifyStorage();
     }, [])
     
-
-    useEffect(() => {
-        console.log(name, isNameDefined)
-    }, [name])
-
   return (
     <div className="misc">
         {!isNameDefined ? 

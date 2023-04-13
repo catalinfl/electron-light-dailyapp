@@ -10,10 +10,22 @@ type ItemProps = {
 
 const AddTaskContext = React.createContext<{ onAddTask: () => void }>({ onAddTask: () => { } })
 
+const TaskAddedContext = React.createContext<{
+    onTaskAdded: () => void
+}>({ onTaskAdded: () => { }})
+
 function AddTask() {
     const [title, setTitle] = useState<string>()
     const [description, setDescription] = useState<string>()
+    const [isTaskAdded, setIsTaskAdded] = useState<boolean>(false);
+
+
     const { onAddTask } = React.useContext(AddTaskContext) 
+    var { onTaskAdded } = React.useContext(TaskAddedContext)
+
+    onTaskAdded = () => {
+        setIsTaskAdded(!isTaskAdded)
+    }
     
     const handleTitle = (event: any) => {
         var target = event.target.value
@@ -29,7 +41,9 @@ function AddTask() {
     }
     
 
+
     const handleAddTask = () => {
+    if (description && description.length > 3 && title && title!.length > 3) {
         let items: ItemProps[] = [];
         const storedItems = localStorage.getItem("test");
         if (storedItems !== "" && storedItems !== null) {
@@ -43,6 +57,8 @@ function AddTask() {
         items.push(item as ItemProps);
         localStorage.setItem("test", JSON.stringify(items));
         onAddTask();
+        onTaskAdded();
+        }
     }
 
     return (
@@ -62,12 +78,17 @@ const ToDoList = ({ onAddTask }: any) => {
     const [addTask, setAddTask] = useState(false)
     const [items, setItems] = useState<ItemProps[]>(JSON.parse(localStorage.getItem("test") as string)
     )
+
     const [taskAdded, setTaskAdded] = useState(false);
 
     const handleTaskAdded = () => {
         setTaskAdded(!taskAdded)
     }
     
+    const removeTasks = () => {
+        localStorage.removeItem("test")
+        handleTaskAdded();
+    }
 
     const handleAddTask = () => {
         setAddTask(!addTask) 
@@ -80,8 +101,9 @@ const ToDoList = ({ onAddTask }: any) => {
             }
         }
         )
+        
         localStorage.setItem("test", JSON.stringify(itemsFiltered))
-        setItems(itemsFiltered)
+setItems(itemsFiltered)
     }
 
     useEffect(() => {
@@ -90,6 +112,7 @@ const ToDoList = ({ onAddTask }: any) => {
 
     return (
     <AddTaskContext.Provider value={{ onAddTask: handleTaskAdded }}>
+    <TaskAddedContext.Provider value={{ onTaskAdded: handleTaskAdded}}>
     <div className="todolist">
         <div className="todolistContainer">
             <div className="todolistOptions">
@@ -97,14 +120,14 @@ const ToDoList = ({ onAddTask }: any) => {
                     <p> Add a task </p>
                     <AiOutlineFileAdd className="icon icon1"/>
                 </div>
-                <div className="todolistOptions__remove">
+                <div className="todolistOptions__remove" onClick={() => removeTasks()}>
                     <p> Remove tasks </p>
                     <AiOutlineDelete className="icon icon2" />
                 </div>
             </div>
             {addTask ? <AddTask /> : 
             <>
-                {items.reverse().map((item: ItemProps, index: number) => {
+                {items && items.length > 0 ? items.reverse().map((item: ItemProps, index: number) => {
                     return (
                             <div className="todolistItem" key={index}>
                                 <div className="iconContainer">
@@ -116,11 +139,12 @@ const ToDoList = ({ onAddTask }: any) => {
                             </div>
                     )
                 }
-                )}
+                ) : <p className="todolistItem__noTask">  No tasks &#127866;</p>}
             </>
             }
         </div>
     </div>
+    </TaskAddedContext.Provider>
     </AddTaskContext.Provider>
     )
 }

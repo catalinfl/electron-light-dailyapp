@@ -79,6 +79,15 @@
             justify-content: flex-end;
         }
 
+        &__noTask {
+            display: flex;
+            font-size: 2rem;
+            color: white;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+    
+
         .iconContainer {
             display: flex;
             width: 100%;
@@ -96,8 +105,9 @@
             }
 
         }
-
     }
+
+
 }
 
 .addTask {

@@ -42,7 +42,7 @@ async function createWindow() {
     frame: false,
     movable: true,
     resizable: false,
-    icon: join(process.env.PUBLIC, 'favicon.ico'),
+    icon: join(process.env.PUBLIC, 'icon.ico'),
     webPreferences: {
       preload,
       nodeIntegration: true,
@@ -54,7 +54,6 @@ async function createWindow() {
 
   if (url) { 
     win.loadURL(url)
-    win.webContents.openDevTools()
   } else {
     win.loadFile(indexHtml)
   }

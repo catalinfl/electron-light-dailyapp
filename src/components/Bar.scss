@@ -4,6 +4,8 @@
     width: 100%;
     height: 35px;
     background-color: $darkViolet;
+    position: fixed;
+    top: 0;
 
     &__buttons {
         display: flex;
