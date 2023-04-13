@@ -57,7 +57,7 @@ function AddTask() {
         items.push(item as ItemProps);
         localStorage.setItem("test", JSON.stringify(items));
         onAddTask();
-        onTaskAdded();
+        setIsTaskAdded(!isTaskAdded);
         }
     }
 
@@ -68,6 +68,7 @@ function AddTask() {
             <p className="addTask__title"> Description </p>
             <textarea onChange={(e: ChangeEvent) => handleDescription(e)} className="addTask__inputDescription" />
             <button className="addTask__button" onClick={() => handleAddTask()}> Add task </button>
+            {isTaskAdded ? <p className="addTask__added"> Task added! </p> : null}
         </div>
     )
 }

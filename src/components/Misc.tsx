@@ -17,12 +17,15 @@ const Misc = () => {
 
 
     const setNameLocal = () => {
+
+
         localStorage.setItem("name", name);
         setIsNameDefined(true)
     }
 
     useEffect(() => {
         verifyStorage();
+        localStorage.clear();
     }, [])
     
   return (
